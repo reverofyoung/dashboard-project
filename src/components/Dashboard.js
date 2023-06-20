@@ -21,8 +21,8 @@ const UserInput = styled.input`
   width: 100%;
 `;
 
-const SaveButton = styled.button`
-
+const SaveButton = styled.div`
+  width: 200px
 `;
 
 
@@ -57,7 +57,7 @@ function Dashboard() {
           placeholder="닉네임을 입력해주세요😁" 
           value={ userName } 
         />
-        <SaveButton title="저장" />
+        <SaveButton>저장</SaveButton>
       </UserCon>
     </div>
    
