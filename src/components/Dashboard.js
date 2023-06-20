@@ -14,15 +14,18 @@ const ClockStyle = styled.div`
 `;
 
 const UserCon = styled.div`
-
-`;
-
-const UserInput = styled.input`
+  display: flex;
+  height: 30px;
   width: 100%;
 `;
 
+const UserInput = styled.input`
+  
+`;
+
 const SaveButton = styled.div`
-  width: 200px
+  background-color: green;
+  width: 200px;
 `;
 
 
@@ -45,6 +48,15 @@ function Dashboard() {
     setUserName(e.target.value);
   };
 
+  const onClickSaveButton = () => {
+    // console.log(userName);
+    if(userName === ' ') {
+      console.log(userName);
+        // alert('입력창이 비었네요!');
+    }
+      setUserName('');
+  };
+
   return (
     <div>
       <ClockCon>
@@ -57,7 +69,7 @@ function Dashboard() {
           placeholder="닉네임을 입력해주세요😁" 
           value={ userName } 
         />
-        <SaveButton>저장</SaveButton>
+        <SaveButton onClick={ onClickSaveButton }>저장</SaveButton>
       </UserCon>
     </div>
    
