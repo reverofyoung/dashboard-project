@@ -16,4 +16,4 @@
 
 
 
-### [View Now!](https://to-ql.github.io/dashboard/)
+### [View Now!](https://to-ql.github.io/dashboard-project/)
