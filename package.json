@@ -1,6 +1,6 @@
 {
   "homepage": "https://reverofyoung.github.io/dashboard-project/",
-  "name": "react-project",
+  "name": "dashboard",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
