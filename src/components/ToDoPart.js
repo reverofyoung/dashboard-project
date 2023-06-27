@@ -96,8 +96,6 @@ function ToDoPart() {
     const onEdit = (e) => {
       const editPrompt = window.prompt('할 일을 수정해주세요', e.target.innerText);
 
-      console.log(editPrompt);
-
       // if(editPrompt !== ''){
       //   window.alert('수정되었어요!');
       // } else {
