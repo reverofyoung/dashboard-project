@@ -2,17 +2,17 @@ import { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 
 const AlignCenter = css`
+  align-items: center;
   display: flex;
   justify-content: center;
-  align-items: center;
 `;
 
 const MainContent = styled.div`
-    box-sizing: border-box; 
-    height: 100%;
-    padding: 40px;
-    width: 33.3%;
-    border-right: 1px solid black;
+  box-sizing: border-box; 
+  height: 100%;
+  padding: 40px;
+  width: 33.3%;
+  border-right: 1px solid black;
 `;
 
 const HorizontalAlign = styled.div`
@@ -44,20 +44,29 @@ const InputButton = styled.div`
 `;
 
 const InnerContentBox = styled.div`
-    margin-top: 30px;
+  margin-top: 20px;
+  border: 1px solid black;
+  height: 300px;
+  overflow: scroll;
+  width: 100%;
+`;
+
+const TodoListBox = styled(HorizontalAlign)`
+  box-sizing: border-box;
+  padding: 0px 5px;
 `;
 
 const ListStyle = styled.div`
-    font-size: 24px;
-    margin-bottom: 10px;
+  font-size: 24px;
+  margin-bottom: 10px;
 
-    &:hover {
-        color: grey;
-    };
+  &:hover {
+      color: grey;
+  };
 `;
 
 const DeleteButton = styled.div`
-
+  background-color: red;
 `;
 
 
@@ -85,35 +94,48 @@ function ToDoPart() {
     };
 
     const onEdit = (e) => {
-        window.prompt('할 일을 수정해주세요', e.target.innerText);
+      const editPrompt = window.prompt('할 일을 수정해주세요', e.target.innerText);
+
+      console.log(editPrompt);
+
+      // if(editPrompt !== ''){
+      //   window.alert('수정되었어요!');
+      // } else {
+      //   window.alert('수정할 값을 입력해주세요!');
+      // };
     };
 
-    const onDelete = (id) => {
-        console.log(id);
+    const onDelete = (dataId) => {
+        console.log('dataId');
         // window.confirm('삭제하시겠오요');
     };
   
   
-    const toDoListCon = toDoList.map((thisResult) => (
-        <div>
-            <ListStyle ListStyle key={ thisResult.key }>{ thisResult.content }</ListStyle>
-            <DeleteButton  key={ thisResult.key } onClick={ onDelete }>삭제</DeleteButton>
-        </div>
-    ));
+    const toDoListCon = toDoList.map((thisResult) => {
+      const dataId = thisResult.key;
+        return(
+          <TodoListBox>
+            <ListStyle key={ dataId } onClick={ onEdit }>{ thisResult.content }</ListStyle>
+            <DeleteButton key={ dataId } onClick={ onDelete }>삭제</DeleteButton>
+          </TodoListBox>
+          )
+      });
   
     return (
-        <MainContent>
-          <HorizontalAlign>
-            <InputArea 
-              onChange={ getTodo } 
-              placeholder="할 일" 
-              value={ toDo } 
-            />
-            <InputButton onClick={ submitToDo }>저장</InputButton>
-          </HorizontalAlign>
-          <InnerContentBox onClick={ onEdit }>{ toDoListCon }</InnerContentBox>
-        </MainContent> 
-    );
+      <MainContent>
+        <HorizontalAlign>
+          <InputArea 
+            onChange={ getTodo } 
+            placeholder="할 일" 
+            value={ toDo } 
+          />
+          <InputButton onClick={ submitToDo }>저장</InputButton>
+        </HorizontalAlign>
+        <InnerContentBox>
+          { toDoListCon }
+        </InnerContentBox>
+      </MainContent> 
+  );
 };
 
 export default ToDoPart;
