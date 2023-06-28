@@ -43,11 +43,11 @@ const InputButton = styled.div`
   };
 `;
 
-const InnerContentBox = styled.div`
+const ScrollArea = styled.div`
   margin-top: 20px;
-  border: 1px solid black;
+  // border: 1px solid black;
   height: 300px;
-  overflow: scroll;
+  overflow-y: scroll;
   width: 100%;
 `;
 
@@ -61,78 +61,80 @@ const ListStyle = styled.div`
   margin-bottom: 10px;
 
   &:hover {
-      color: grey;
+    color: grey;
   };
 `;
 
 const DeleteButton = styled.div`
-  background-color: red;
+  // background-color: red;
 `;
 
-
 function ToDoPart() {
-    const [toDo, setToDo] = useState('');
-    const [toDoList, setToDoList] = useState([]);
-    const [currKey, setCurrKey] = useState(0);
-  
-    const getTodo = (e) => {
-      setToDo(e.target.value);
-    };
-  
-    const submitToDo = (e) => {
-      e.preventDefault();
-  
-      const addToDo = toDoList.concat({
-        content: toDo,
-        key: currKey,
-      });
-  
-      setCurrKey(currKey + 1);
-      setToDoList(addToDo);
-      setToDo('');
-      console.log(currKey);
-    };
+  const [inputData, setInputData] = useState('');
+  const [toDoList, setToDoList] = useState([]);
+  const [currKey, setCurrKey] = useState(0);
 
-    const onEdit = (e) => {
-      const editPrompt = window.prompt('할 일을 수정해주세요', e.target.innerText);
+  const getToDo = (e) => {
+    setInputData(e.target.value);
+  };
 
-      // if(editPrompt !== ''){
-      //   window.alert('수정되었어요!');
-      // } else {
-      //   window.alert('수정할 값을 입력해주세요!');
-      // };
-    };
+  // 추가
+  const submitToDo = (e) => {
+    e.preventDefault();
 
-    const onDelete = (dataId) => {
-        console.log('dataId');
-        // window.confirm('삭제하시겠오요');
+    const addToDo = toDoList.concat({
+      content: inputData,
+      id: currKey,
+    });
+
+    setCurrKey(currKey + 1);
+    setToDoList(addToDo);
+    setInputData('');
+  };
+
+  // 수정
+  const editToDo = (e) => {
+    const editPrompt = window.prompt('할 일을 수정해주세요', e.target.innerText);
+
+    // if(editPrompt !== ''){
+    //   window.alert('수정되었어요!');
+    // } else {
+    //   window.alert('수정할 값을 입력해주세요!');
+    // };
+  };
+
+  // 삭제 
+  const deleteTodo = (id) => {
+    if(window.confirm('삭제하시겠어요??')){
+      setToDoList(toDoList.filter((toDo) => toDo.id !== id));
     };
-  
-  
-    const toDoListCon = toDoList.map((thisResult) => {
-      const dataId = thisResult.key;
-        return(
-          <TodoListBox>
-            <ListStyle key={ dataId } onClick={ onEdit }>{ thisResult.content }</ListStyle>
-            <DeleteButton key={ dataId } onClick={ onDelete }>삭제</DeleteButton>
-          </TodoListBox>
-          )
-      });
-  
-    return (
-      <MainContent>
-        <HorizontalAlign>
-          <InputArea 
-            onChange={ getTodo } 
-            placeholder="할 일" 
-            value={ toDo } 
-          />
-          <InputButton onClick={ submitToDo }>저장</InputButton>
-        </HorizontalAlign>
-        <InnerContentBox>
-          { toDoListCon }
-        </InnerContentBox>
-      </MainContent> 
+  };
+
+  const toDoListCon = toDoList.map((thisResult) => {
+    const dataId = thisResult.id;
+      return(
+        <TodoListBox key={ dataId } >
+          <ListStyle onClick={ editToDo }>{ thisResult.content }</ListStyle>
+          <DeleteButton onClick={ () => deleteTodo(dataId) }>X</DeleteButton>
+        </TodoListBox>
+      )
+  });
+
+  return (
+    <MainContent>
+      <div>오늘 할 일은 {toDoList.length}개에요!</div>
+      <HorizontalAlign>
+        <InputArea 
+          onChange={ getToDo } 
+          placeholder="할 일" 
+          value={ inputData } 
+        />
+        <InputButton onClick={ submitToDo }>저장</InputButton>
+      </HorizontalAlign>
+      <ScrollArea>
+        { toDoListCon }
+      </ScrollArea>
+    </MainContent> 
   );
 };
 
