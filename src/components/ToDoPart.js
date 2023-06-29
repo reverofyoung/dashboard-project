@@ -99,6 +99,7 @@ const ButtonStyle = styled.div`
 
 function ToDoPart() {
   const [inputData, setInputData] = useState('');
+  const [editInputDats, setEditInputData] = useState('');
   const [toDoList, setToDoList] = useState([]);
   const [currKey, setCurrKey] = useState(0);
   const [optionVisible, setOptionVisible] = useState(false);
@@ -111,13 +112,14 @@ function ToDoPart() {
   const submitToDo = (e) => {
     e.preventDefault();
 
-    const addToDo = toDoList.concat({
-      content: inputData,
-      id: currKey,
-    });
-
     if(inputData !== '') {
-      setToDoList(addToDo);
+      setToDoList([
+        ...toDoList,
+        {
+          content: inputData,
+          id: currKey,
+        }
+      ])  
     } else {
       alert('빈칸');
     }
@@ -135,7 +137,8 @@ function ToDoPart() {
   };
 
   // 수정
-  const editToDo = (e) => {
+  const editToDo = (id) => {
+    setToDoList(toDoList.map(todo => todo.id === id ? {...todo, content: '홧인' } : todo ))
     // const editPrompt = window.prompt('할 일을 수정해주세요', e.target.innerText);
 
   };
@@ -143,7 +146,7 @@ function ToDoPart() {
   // 삭제 
   const deleteTodo = (id) => {
     if(window.confirm('삭제하시겠어요??')){
-      setToDoList(toDoList.filter((toDo) => toDo.id !== id));
+      setToDoList(toDoList.filter((todo) => todo.id !== id));
     };
   };
 
@@ -156,7 +159,7 @@ function ToDoPart() {
           {
             optionVisible === true ? 
             <OptionArea>
-              <ButtonStyle onClick={ editToDo }>수정</ButtonStyle>
+              <ButtonStyle onClick={ () => editToDo(dataId) }>수정</ButtonStyle>
               <ButtonStyle onClick={ () => deleteTodo(dataId) }>삭제</ButtonStyle>
             </OptionArea> : 
             null
