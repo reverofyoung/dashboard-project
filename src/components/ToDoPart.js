@@ -45,10 +45,23 @@ const InputButton = styled.div`
 
 const ScrollArea = styled.div`
   margin-top: 20px;
-  // border: 1px solid black;
-  height: 300px;
+  height: 80%;
   overflow-y: scroll;
   width: 100%;
+
+  ::-webkit-scrollbar {
+    width: 5px;
+  };
+  ::-webkit-scrollbar-thumb {
+    background-clip: padding-box;
+    background-color: rgb(0,0,0,0.7);
+    border: 1px solid transparent;
+    border-radius: 3px;
+  };
+  ::-webkit-scrollbar-track {
+    // background-color: rgb(0,0,0,0.1);
+    border-radius: 3px;
+  };
 `;
 
 const TodoListBox = styled(HorizontalAlign)`
@@ -66,7 +79,7 @@ const ListStyle = styled.div`
 `;
 
 const DeleteButton = styled.div`
-  // background-color: red;
+  cursor: pointer;
 `;
 
 function ToDoPart() {
