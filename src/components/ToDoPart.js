@@ -91,8 +91,10 @@ const OptionArea = styled.div`
   right: 0;
 `;
 
-const DeleteButton = styled.div`
+const ButtonStyle = styled.div`
+  box-sizing: border-box;
   cursor: pointer;
+  // padding: 5px 10px;
 `;
 
 function ToDoPart() {
@@ -114,8 +116,12 @@ function ToDoPart() {
       id: currKey,
     });
 
+    if(inputData !== '') {
+      setToDoList(addToDo);
+    } else {
+      alert('빈칸');
+    }
     setCurrKey(currKey + 1);
-    setToDoList(addToDo);
     setInputData('');
   };
 
@@ -130,13 +136,8 @@ function ToDoPart() {
 
   // 수정
   const editToDo = (e) => {
-    const editPrompt = window.prompt('할 일을 수정해주세요', e.target.innerText);
+    // const editPrompt = window.prompt('할 일을 수정해주세요', e.target.innerText);
 
-    // if(editPrompt !== ''){
-    //   window.alert('수정되었어요!');
-    // } else {
-    //   window.alert('수정할 값을 입력해주세요!');
-    // };
   };
 
   // 삭제 
@@ -151,13 +152,12 @@ function ToDoPart() {
       return(
         <TodoListBox key={ dataId } >
           <ListStyle>{ thisResult.content }</ListStyle>
-          {/* <DeleteButton onClick={ () => deleteTodo(dataId) }>X</DeleteButton> */}
           <OptionButton onClick={ () => openOption(dataId) }><SlOptionsVertical size="12" /></OptionButton>
           {
             optionVisible === true ? 
             <OptionArea>
-              <div onClick={ editToDo }>수정</div>
-              <div onClick={ () => deleteTodo(dataId) }>삭제</div>
+              <ButtonStyle onClick={ editToDo }>수정</ButtonStyle>
+              <ButtonStyle onClick={ () => deleteTodo(dataId) }>삭제</ButtonStyle>
             </OptionArea> : 
             null
           }
