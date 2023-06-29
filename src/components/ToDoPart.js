@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
+import { SlOptionsVertical } from "react-icons/sl";
 
 const AlignCenter = css`
   align-items: center;
@@ -67,6 +68,7 @@ const ScrollArea = styled.div`
 const TodoListBox = styled(HorizontalAlign)`
   box-sizing: border-box;
   padding: 0px 5px;
+  position: relative;
 `;
 
 const ListStyle = styled.div`
@@ -78,6 +80,17 @@ const ListStyle = styled.div`
   };
 `;
 
+const OptionButton = styled.div`
+  cursor: pointer;
+`;
+
+const OptionArea = styled.div`
+  bottom: 0;
+  display: flex;
+  position: absolute;
+  right: 0;
+`;
+
 const DeleteButton = styled.div`
   cursor: pointer;
 `;
@@ -86,6 +99,7 @@ function ToDoPart() {
   const [inputData, setInputData] = useState('');
   const [toDoList, setToDoList] = useState([]);
   const [currKey, setCurrKey] = useState(0);
+  const [optionVisible, setOptionVisible] = useState(false);
 
   const getToDo = (e) => {
     setInputData(e.target.value);
@@ -103,6 +117,15 @@ function ToDoPart() {
     setCurrKey(currKey + 1);
     setToDoList(addToDo);
     setInputData('');
+  };
+
+  // 수정&삭제 팝업 열기
+  const openOption = (id) => {
+    console.log(id);
+    // !optionVisible;
+    if(toDoList.find((thisToDo) => thisToDo.id === id)){
+      setOptionVisible(!optionVisible);
+    }
   };
 
   // 수정
@@ -127,8 +150,18 @@ function ToDoPart() {
     const dataId = thisResult.id;
       return(
         <TodoListBox key={ dataId } >
-          <ListStyle onClick={ editToDo }>{ thisResult.content }</ListStyle>
-          <DeleteButton onClick={ () => deleteTodo(dataId) }>X</DeleteButton>
+          <ListStyle>{ thisResult.content }</ListStyle>
+          {/* <DeleteButton onClick={ () => deleteTodo(dataId) }>X</DeleteButton> */}
+          <OptionButton onClick={ () => openOption(dataId) }><SlOptionsVertical size="12" /></OptionButton>
+          {
+            optionVisible === true ? 
+            <OptionArea>
+              <div onClick={ editToDo }>수정</div>
+              <div onClick={ () => deleteTodo(dataId) }>삭제</div>
+            </OptionArea> : 
+            null
+          }
+      
         </TodoListBox>
       )
   });
