@@ -98,74 +98,93 @@ const ButtonStyle = styled.div`
 `;
 
 function ToDoPart() {
-  const [inputData, setInputData] = useState('');
-  const [editInputDats, setEditInputData] = useState('');
+  const [data, setData] = useState('');
+  const [editData, setEditData] = useState('');
   const [toDoList, setToDoList] = useState([]);
   const [currKey, setCurrKey] = useState(0);
-  const [optionVisible, setOptionVisible] = useState(false);
+  const [optionStates, setOptionStates] = useState({});
+  const [isEditing, setIsEditing] = useState(false);
+   
+  const handleAddToDo = (e) => {
+    e.preventDefault();
+    setData(e.target.value);
+  };
 
-  const getToDo = (e) => {
-    setInputData(e.target.value);
+  const handleEditToDo = (e) => {
+    e.preventDefault();
+    setEditData(e.target.value);
   };
 
   // 추가
-  const submitToDo = (e) => {
+  const addToDo = (e) => {
     e.preventDefault();
 
-    if(inputData !== '') {
-      setToDoList([
-        ...toDoList,
-        {
-          content: inputData,
-          id: currKey,
-        }
-      ])  
+    if(data !== '') {
+      setToDoList([ ...toDoList,{ content: data, id: currKey }]);  
     } else {
-      alert('빈칸');
+      alert('할 일을 입력해주세요 :^)');
     }
     setCurrKey(currKey + 1);
-    setInputData('');
+    setData('');
   };
 
-  // 수정&삭제 팝업 열기
-  const openOption = (id) => {
-    console.log(id);
-    // !optionVisible;
-    if(toDoList.find((thisToDo) => thisToDo.id === id)){
-      setOptionVisible(!optionVisible);
-    }
+  // 수정&삭제 옵션 열기
+  const toggleOption = (id) => {
+    console.log('현재 클릭한 리스트', id);
+
+    setOptionStates((preOption) => ({
+      ...preOption,
+      [id]: !preOption[id],
+    }));
+  };
+
+  // 수정폼 열기
+  const editFormOpen = (id) => {
+    setIsEditing(true);
+    console.log('수정폼아 열려라...');
   };
 
   // 수정
   const editToDo = (id) => {
-    setToDoList(toDoList.map(todo => todo.id === id ? {...todo, content: '홧인' } : todo ))
-    // const editPrompt = window.prompt('할 일을 수정해주세요', e.target.innerText);
-
+    // setToDoList(toDoList.map(todo => todo.id === id ? {...todo, content: '홧인' } : todo ));
+    // setOptionStates(!optionStates);
   };
+
 
   // 삭제 
   const deleteTodo = (id) => {
     if(window.confirm('삭제하시겠어요??')){
       setToDoList(toDoList.filter((todo) => todo.id !== id));
     };
+    setOptionStates(!optionStates);
   };
 
   const toDoListCon = toDoList.map((thisResult) => {
     const dataId = thisResult.id;
+
       return(
-        <TodoListBox key={ dataId } >
-          <ListStyle>{ thisResult.content }</ListStyle>
-          <OptionButton onClick={ () => openOption(dataId) }><SlOptionsVertical size="12" /></OptionButton>
-          {
-            optionVisible === true ? 
-            <OptionArea>
-              <ButtonStyle onClick={ () => editToDo(dataId) }>수정</ButtonStyle>
-              <ButtonStyle onClick={ () => deleteTodo(dataId) }>삭제</ButtonStyle>
-            </OptionArea> : 
-            null
-          }
-      
-        </TodoListBox>
+        isEditing ? 
+          <HorizontalAlign>
+            <InputArea 
+              onChange={ handleEditToDo } 
+              placeholder="수정값" 
+              value={ editData } 
+            />
+            <InputButton onClick={ editToDo(dataId) }>수정</InputButton>
+          </HorizontalAlign> : 
+          <TodoListBox key={ dataId } >
+              <ListStyle>{ thisResult.content }</ListStyle>
+              <OptionButton onClick={ () => toggleOption(dataId) }>
+                <SlOptionsVertical size="12" />
+              </OptionButton>
+              {
+                optionStates[dataId] &&
+                  <OptionArea>
+                    <ButtonStyle onClick={ () => editFormOpen(dataId) }>수정</ButtonStyle>
+                    <ButtonStyle onClick={ () => deleteTodo(dataId) }>삭제</ButtonStyle>
+                  </OptionArea> 
+              }
+            </TodoListBox>
       )
   });
 
@@ -174,11 +193,11 @@ function ToDoPart() {
       <div>오늘 할 일은 {toDoList.length}개에요!</div>
       <HorizontalAlign>
         <InputArea 
-          onChange={ getToDo } 
+          onChange={ handleAddToDo } 
           placeholder="할 일" 
-          value={ inputData } 
+          value={ data } 
         />
-        <InputButton onClick={ submitToDo }>저장</InputButton>
+        <InputButton onClick={ addToDo }>저장</InputButton>
       </HorizontalAlign>
       <ScrollArea>
         { toDoListCon }
