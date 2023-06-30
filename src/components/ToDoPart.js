@@ -173,18 +173,18 @@ function ToDoPart() {
             <InputButton onClick={ editToDo(dataId) }>수정</InputButton>
           </HorizontalAlign> : 
           <TodoListBox key={ dataId } >
-              <ListStyle>{ thisResult.content }</ListStyle>
-              <OptionButton onClick={ () => toggleOption(dataId) }>
-                <SlOptionsVertical size="12" />
-              </OptionButton>
-              {
-                optionStates[dataId] &&
-                  <OptionArea>
-                    <ButtonStyle onClick={ () => editFormOpen(dataId) }>수정</ButtonStyle>
-                    <ButtonStyle onClick={ () => deleteTodo(dataId) }>삭제</ButtonStyle>
-                  </OptionArea> 
-              }
-            </TodoListBox>
+            <ListStyle>{ thisResult.content }</ListStyle>
+            <OptionButton onClick={ () => toggleOption(dataId) }>
+              <SlOptionsVertical size="12" />
+            </OptionButton>
+            {
+              optionStates[dataId] &&
+                <OptionArea>
+                  <ButtonStyle onClick={ () => editFormOpen(dataId) }>수정</ButtonStyle>
+                  <ButtonStyle onClick={ () => deleteTodo(dataId) }>삭제</ButtonStyle>
+                </OptionArea> 
+            }
+          </TodoListBox>
       )
   });
 
