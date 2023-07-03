@@ -103,7 +103,7 @@ function ToDoPart() {
   const [toDoList, setToDoList] = useState([]);
   const [currKey, setCurrKey] = useState(0);
   const [optionStates, setOptionStates] = useState({});
-  const [isEditing, setIsEditing] = useState(false);
+  const [editStates, setEditStates] = useState({});
    
   const handleAddToDo = (e) => {
     e.preventDefault();
@@ -124,30 +124,34 @@ function ToDoPart() {
     } else {
       alert('할 일을 입력해주세요 :^)');
     }
+
     setCurrKey(currKey + 1);
     setData('');
   };
 
   // 수정&삭제 옵션 열기
   const toggleOption = (id) => {
-    console.log('현재 클릭한 리스트', id);
-
     setOptionStates((preOption) => ({
       ...preOption,
       [id]: !preOption[id],
     }));
   };
 
+
   // 수정폼 열기
-  const editFormOpen = (id) => {
-    setIsEditing(true);
-    console.log('수정폼아 열려라...');
+  const toggleEditForm = (id) => {
+    setEditStates((preState) => ({
+      ...preState,
+      [id]: !preState[id],
+    }));    
   };
 
   // 수정
   const editToDo = (id) => {
-    // setToDoList(toDoList.map(todo => todo.id === id ? {...todo, content: '홧인' } : todo ));
-    // setOptionStates(!optionStates);
+    const preList = [...toDoList];
+    const findIndex = toDoList.findIndex(toDo => toDo.id === id);
+    preList[findIndex].content = editData;
+    setToDoList(preList);
   };
 
 
@@ -159,11 +163,13 @@ function ToDoPart() {
     setOptionStates(!optionStates);
   };
 
+  console.log('확인', toDoList);
+
   const toDoListCon = toDoList.map((thisResult) => {
     const dataId = thisResult.id;
 
       return(
-        isEditing ? 
+        editStates[dataId] ?
           <HorizontalAlign>
             <InputArea 
               onChange={ handleEditToDo } 
@@ -180,7 +186,7 @@ function ToDoPart() {
             {
               optionStates[dataId] &&
                 <OptionArea>
-                  <ButtonStyle onClick={ () => editFormOpen(dataId) }>수정</ButtonStyle>
+                  <ButtonStyle onClick={ () => toggleEditForm(dataId) }>수정</ButtonStyle>
                   <ButtonStyle onClick={ () => deleteTodo(dataId) }>삭제</ButtonStyle>
                 </OptionArea> 
             }
@@ -199,6 +205,7 @@ function ToDoPart() {
         />
         <InputButton onClick={ addToDo }>저장</InputButton>
       </HorizontalAlign>
+
       <ScrollArea>
         { toDoListCon }
       </ScrollArea>
