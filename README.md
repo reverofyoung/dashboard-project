@@ -13,9 +13,13 @@
 ![React](https://img.shields.io/badge/React-61DAFB.svg?style=for-the-badge&logo=React&logoColor=white)
 
 
-
 ### 프로젝트 소개
 
 
+### 주요 기능
+- 사용자 이름 등록
+- 현재 시간 및 날짜 확인
+- 현재 기온 및 날씨 확인
+- 투두 리스트 추가, 삭제
 
 ### [View Now!](https://reverofyoung.github.io/dashboard-project/)
