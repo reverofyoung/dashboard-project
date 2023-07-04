@@ -127,15 +127,15 @@ function GreetingPart() {
           </HorizontalAlign>
         }
         </InnerContentBox>
-        <InnerContentBox>
+        {/* <InnerContentBox>
           오늘은 { time.toLocaleDateString() }
           <br />
           현재시간은 { time.toLocaleTimeString() } 입니다.
-        </InnerContentBox>
+        </InnerContentBox> */}
         <InnerContentBox>
           {/* 현재 날씨는 { currWeather?.temp }℃로 { currWeather?.weather[0].description } 이에요 */}
           { 
-            currWeather === null ? 
+            currWeather === null || currWeather === undefined ? 
             <div>현재 날씨를 가져오고 있어요!</div> : 
             <div>현재 기온은 { currWeather?.temp }℃로 { currWeather?.weather[0].description } 이에요</div>
           }

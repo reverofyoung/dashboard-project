@@ -148,10 +148,10 @@ function ToDoPart() {
 
   // 수정
   const editToDo = (id) => {
-    const preList = [...toDoList];
-    const findIndex = toDoList.findIndex(toDo => toDo.id === id);
-    preList[findIndex].content = editData;
-    setToDoList(preList);
+    // const preList = [...toDoList];
+    // const findIndex = toDoList.findIndex(toDo => toDo.id === id);
+    // preList[findIndex].content = editData;
+    // setToDoList(preList);
   };
 
 
@@ -163,7 +163,7 @@ function ToDoPart() {
     setOptionStates(!optionStates);
   };
 
-  console.log('확인', toDoList);
+  console.log('toDoList 값 확인 : ', toDoList);
 
   const toDoListCon = toDoList.map((thisResult) => {
     const dataId = thisResult.id;
