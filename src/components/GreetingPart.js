@@ -7,41 +7,56 @@ const AlignCenter = css`
   align-items: center;
 `;
 
-const MainContent = styled.div`
-  box-sizing: border-box; 
-  height: 100%;
-  padding: 40px;
-  width: 33.3%;
-  border-right: 1px solid black;
-`;
-
-const InnerContentBox = styled.div`
-  font-size: 28px;
-  height: 33.3%;
-  width: 100%;
-`;
-
-const HorizontalAlign = styled.div`
+const HorizontalAlign = css`
   align-items: center;
   display: flex;
   justify-content: space-between;
 `;
 
+const MainContent = styled.div`
+  box-sizing: border-box; 
+  height: 100%;
+  /* padding: 30px; */
+  width: 33.3%;
+  border-right: 1px solid black;
+`;
+
+const InnerContentBox = styled.div`
+  height: 33.3%;
+  width: 100%;
+`;
+
+const UserInputArea = styled.div`
+  ${HorizontalAlign}
+  border-bottom: 1px solid black;
+  box-sizing: border-box;
+  height: 50px;
+
+  /* padding: 10px; */
+`;
+
 const InputArea = styled.input`
-  border-width: 0px 0px 1px 0px;
-  font-size: 26px;
-  height: 60px;
+  ${ AlignCenter }
+  border-width: 0px;
+  font-size: 18px;
+  height: 100%;
   width: 70%;
+  padding: 0px 10px;
+  margin: 0px;
+
+  ::placeholder {
+    font-size: 18px;
+  }
 `;
 
 const InputButton = styled.div`
   ${ AlignCenter }
-  border: 1px solid black;
-  border-radius: 10px;
-  font-size: 22px;
-  height: 30px;
-  width: 20%;
+  border-left: 1px solid black;
+  /* border-radius: 10px; */
+  font-size: 18px;
+  height: 100%;
   min-width: 60px;
+  width: 30%;
 
   &:hover {
     background-color: black;
@@ -50,12 +65,15 @@ const InputButton = styled.div`
 `;
 
 const UserNameArea = styled.div`
-  display: userName !== '' ? flex : none;
-  font-size: 30px;
+  border-bottom: 1px solid black;
+  box-sizing: border-box;
+  font-size: 22px;
+  padding: 10px;
 `;
 
+
 function GreetingPart() {
-    const [time, setTime] = useState(new Date());
+    // const [time, setTime] = useState(new Date());
     const [currWeather, setCurrWeather] = useState(null);
     const [userName, setUserName] = useState('');
     const [user, setUser] = useState('');
@@ -82,25 +100,25 @@ function GreetingPart() {
     useEffect(() => {
       getCurrentLocation();
       getWeatherByCurrentLocation();
-        
     }, []);
   
-    useEffect(() => {
-      const id = setInterval(() => {
-        setTime(new Date());
-      }, 1000);
+    // useEffect(() => {
+    //   const id = setInterval(() => {
+    //     setTime(new Date());
+    //   }, 1000);
   
-      return (() => 
-        clearInterval(id) // 불필요한 작업 방지
-      ); 
-    }, []);
+    //   return (() => 
+    //     clearInterval(id) // 불필요한 작업 방지
+    //   ); 
+    // }, []);
   
     const getUserName = (e) => {
       setUserName(e.target.value);
     };
   
-    const submitUserName = (e) => {
+    const addUserName = (e) => {
       e.preventDefault();
+
       if(userName === '') {
           alert('입력창이 비었네요!');
       } else {
@@ -114,17 +132,15 @@ function GreetingPart() {
         <InnerContentBox>
         {
           user !== '' ? 
-          <HorizontalAlign>
-            <UserNameArea>{ user }님 <br />안녕하세요!</UserNameArea>
-          </HorizontalAlign> : 
-          <HorizontalAlign>
-            <InputArea 
-              onChange={ getUserName } 
-              placeholder="이름" 
-              value={ userName } 
-            />
-            <InputButton onClick={ submitUserName }>저장</InputButton>
-          </HorizontalAlign>
+            <UserNameArea>{ user }님 <br />안녕하세요</UserNameArea> : 
+            <UserInputArea>
+              <InputArea 
+                onChange={ getUserName } 
+                placeholder="이름을 입력해주세요" 
+                value={ userName } 
+              />
+              <InputButton onClick={ addUserName }>저장</InputButton>
+            </UserInputArea>
         }
         </InnerContentBox>
         {/* <InnerContentBox>
@@ -133,7 +149,6 @@ function GreetingPart() {
           현재시간은 { time.toLocaleTimeString() } 입니다.
         </InnerContentBox> */}
         <InnerContentBox>
-          {/* 현재 날씨는 { currWeather?.temp }℃로 { currWeather?.weather[0].description } 이에요 */}
           { 
             currWeather === null || currWeather === undefined ? 
             <div>현재 날씨를 가져오고 있어요!</div> : 

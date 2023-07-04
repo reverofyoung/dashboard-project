@@ -11,32 +11,54 @@ const AlignCenter = css`
 const MainContent = styled.div`
   box-sizing: border-box; 
   height: 100%;
-  padding: 40px;
+  /* padding: 30px; */
   width: 33.3%;
   border-right: 1px solid black;
 `;
 
-const HorizontalAlign = styled.div`
+const HorizontalAlign = css`
   align-items: center;
   display: flex;
   justify-content: space-between;
 `;
 
+const ContentTitleArea = styled.div`
+  ${ AlignCenter }
+  border-bottom: 1px solid black;
+  box-sizing: border-box;
+  font-size: 18px;
+  font-weight: 700;
+  height: 50px;
+`;
+
+const ToDoInputArea = styled.div`
+  ${ HorizontalAlign }
+  border-bottom: 1px solid black;
+  box-sizing: border-box;
+  height: 50px;
+`;
+
 const InputArea = styled.input`
-  border-width: 0px 0px 1px 0px;
-  font-size: 26px;
-  height: 60px;
+  border-width: 0px;
+  font-size: 18px;
+  height: 100%;
   width: 70%;
+  padding: 0px 10px;
+  margin: 0px;
+
+  ::placeholder {
+    font-size: 18px;
+  }
 `;
 
 const InputButton = styled.div`
   ${ AlignCenter }
-  border: 1px solid black;
-  border-radius: 10px;
-  font-size: 22px;
-  height: 30px;
-  width: 20%;
+  border-left: 1px solid black;
+  /* border-radius: 10px; */
+  font-size: 18px;
+  height: 100%;
   min-width: 60px;
+  width: 30%;
 
   &:hover {
     background-color: black;
@@ -45,9 +67,10 @@ const InputButton = styled.div`
 `;
 
 const ScrollArea = styled.div`
-  margin-top: 20px;
+  box-sizing: border-box;
   height: 80%;
   overflow-y: scroll;
+  padding: 10px;
   width: 100%;
 
   ::-webkit-scrollbar {
@@ -65,15 +88,27 @@ const ScrollArea = styled.div`
   };
 `;
 
-const TodoListBox = styled(HorizontalAlign)`
+const TodoListBox = styled.div`
+  /* ${ HorizontalAlign } */
+  align-items: center;
   box-sizing: border-box;
-  padding: 0px 5px;
+  display: flex;
+  margin-bottom: 10px;
   position: relative;
 `;
 
-const ListStyle = styled.div`
-  font-size: 24px;
-  margin-bottom: 10px;
+const CheckBoxStyle = styled.input`
+  height: 15px;
+`;
+
+const ContentStyle = styled.div`
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  font-size: 18px;
+  padding: 0px 10px;
+  width: 90%;
+  text-decoration: ${({ isChecked }) => (isChecked ? 'line-through' : 'none')};
 
   &:hover {
     color: grey;
@@ -81,7 +116,9 @@ const ListStyle = styled.div`
 `;
 
 const OptionButton = styled.div`
+  ${ AlignCenter }
   cursor: pointer;
+  width: 30px;
 `;
 
 const OptionArea = styled.div`
@@ -99,6 +136,7 @@ const ButtonStyle = styled.div`
 
 function ToDoPart() {
   const [data, setData] = useState('');
+  const [isChecked, setIsChecked] = useState(false);
   const [editData, setEditData] = useState('');
   const [toDoList, setToDoList] = useState([]);
   const [currKey, setCurrKey] = useState(0);
@@ -129,6 +167,11 @@ function ToDoPart() {
     setData('');
   };
 
+  // 체크 박스
+  const handleChecked = (e) => {
+    setIsChecked(e.target.checked);
+  };
+
   // 수정&삭제 옵션 열기
   const toggleOption = (id) => {
     setOptionStates((preOption) => ({
@@ -136,7 +179,6 @@ function ToDoPart() {
       [id]: !preOption[id],
     }));
   };
-
 
   // 수정폼 열기
   const toggleEditForm = (id) => {
@@ -164,6 +206,7 @@ function ToDoPart() {
   };
 
   console.log('toDoList 값 확인 : ', toDoList);
+  console.log('isChecked 값 확인 : ', isChecked);
 
   const toDoListCon = toDoList.map((thisResult) => {
     const dataId = thisResult.id;
@@ -172,6 +215,7 @@ function ToDoPart() {
         editStates[dataId] ?
           <HorizontalAlign>
             <InputArea 
+              checked={isChecked}
               onChange={ handleEditToDo } 
               placeholder="수정값" 
               value={ editData } 
@@ -179,7 +223,12 @@ function ToDoPart() {
             <InputButton onClick={ editToDo(dataId) }>수정</InputButton>
           </HorizontalAlign> : 
           <TodoListBox key={ dataId } >
-            <ListStyle>{ thisResult.content }</ListStyle>
+            <CheckBoxStyle 
+              key={ dataId }
+              onChange={ handleChecked }
+              type="checkbox"
+            />
+            <ContentStyle isChecked={ isChecked }>{ thisResult.content }</ContentStyle>
             <OptionButton onClick={ () => toggleOption(dataId) }>
               <SlOptionsVertical size="12" />
             </OptionButton>
@@ -196,16 +245,15 @@ function ToDoPart() {
 
   return (
     <MainContent>
-      <div>오늘 할 일은 {toDoList.length}개에요!</div>
-      <HorizontalAlign>
+      <ContentTitleArea>오늘 할 일은 {toDoList.length}개에요</ContentTitleArea>
+      <ToDoInputArea>
         <InputArea 
           onChange={ handleAddToDo } 
           placeholder="할 일" 
           value={ data } 
         />
         <InputButton onClick={ addToDo }>저장</InputButton>
-      </HorizontalAlign>
-
+      </ToDoInputArea>
       <ScrollArea>
         { toDoListCon }
       </ScrollArea>
