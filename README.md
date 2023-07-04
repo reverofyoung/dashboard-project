@@ -1,4 +1,4 @@
-## ON My DashBoard Projrct
+## On My Dashboard Project
 
 ### 개발 기간
 2023.06 - (진행중)
