@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { SlOptionsVertical } from "react-icons/sl";
 
@@ -70,21 +70,20 @@ const ScrollArea = styled.div`
   box-sizing: border-box;
   height: 80%;
   overflow-y: scroll;
-  padding: 10px;
   width: 100%;
 
   ::-webkit-scrollbar {
-    width: 5px;
+    /* width: 5px; */
   };
   ::-webkit-scrollbar-thumb {
-    background-clip: padding-box;
-    background-color: rgb(0,0,0,0.7);
-    border: 1px solid transparent;
-    border-radius: 3px;
+    /* background-clip: padding-box; */
+    /* background-color: rgb(0,0,0,0.7); */
+    /* border: 1px solid transparent; */
+    /* border-radius: 3px; */
   };
   ::-webkit-scrollbar-track {
     // background-color: rgb(0,0,0,0.1);
-    border-radius: 3px;
+    /* border-radius: 3px; */
   };
 `;
 
@@ -93,8 +92,13 @@ const TodoListBox = styled.div`
   align-items: center;
   box-sizing: border-box;
   display: flex;
-  padding: 8px 0px;
+  padding: 10px 5px;
   position: relative;
+
+  &:hover {
+    background-color: black;
+    color: white;
+  };
 `;
 
 const CheckBoxStyle = styled.input`
@@ -108,10 +112,6 @@ const ContentStyle = styled.div`
   font-size: 18px;
   padding: 0px 10px;
   width: 90%;
-
-  &:hover {
-    color: grey;
-  };
 `;
 
 const CheckedStyle = styled(ContentStyle)`
@@ -147,17 +147,38 @@ function ToDoPart() {
   const [checkedStates, setCheckedStates] = useState({});
   const [optionStates, setOptionStates] = useState({});
   const [editStates, setEditStates] = useState({});
+
+  useEffect(() => {
+    const test = JSON.parse((localStorage.getItem(currKey)));
+    console.log(test);
+  }, []);
    
-  // 추가 시 인풋
+  // 추가 시 인풋 데이터 담기
   const handleAddToDo = (e) => {
     e.preventDefault();
     setData(e.target.value);
   };
 
-  // 수정 시 인풋
+  // 수정 시 인풋 데이터 담기
   const handleEditToDo = (e) => {
     e.preventDefault();
     setEditData(e.target.value);
+  };
+
+  // 추가 버튼 클릭 이벤트
+  const addToDo = (e) => {
+    e.preventDefault();
+
+    if(data !== '') {
+      setToDoList([ ...toDoList,{ id: currKey, content: data }]);  
+      localStorage.setItem('toDoData', JSON.stringify({ id: currKey, content: data }));
+    } else {
+      alert('할 일을 입력해주세요 :^)');
+    }
+
+
+    setCurrKey(currKey + 1);
+    setData('');
   };
 
   // 체크박스 상태 확인
@@ -166,22 +187,6 @@ function ToDoPart() {
       ...preState,
       [id]: !preState[id],
     }));
-  };
-
-  console.log(checkedStates);
-
-  // 추가 버튼 클릭 이벤트
-  const addToDo = (e) => {
-    e.preventDefault();
-
-    if(data !== '') {
-      setToDoList([ ...toDoList,{ content: data, id: currKey }]);  
-    } else {
-      alert('할 일을 입력해주세요 :^)');
-    }
-
-    setCurrKey(currKey + 1);
-    setData('');
   };
 
   // 수정&삭제 옵션 열기
@@ -219,9 +224,9 @@ function ToDoPart() {
 
   const toDoListCon = toDoList.map((thisResult) => {
     const dataId = thisResult.id;
-
       return(
         editStates[dataId] ?
+          // >>>>>>>>>> 수정 상태 일 때 <<<<<<<<<<
           <HorizontalAlign>
             <InputArea 
               onChange={ handleEditToDo } 
@@ -230,8 +235,11 @@ function ToDoPart() {
             />
             <InputButton onClick={ editToDo(dataId) }>수정</InputButton>
           </HorizontalAlign> : 
-          
-          <TodoListBox key={ dataId } >
+
+          // >>>>>>>>>> 수정 상태가 아닐 때 <<<<<<<<<<
+          <TodoListBox 
+            key={ dataId }
+          >
             <CheckBoxStyle 
               key={ dataId }
               onChange={ () => handleChecked(dataId) }
@@ -252,13 +260,17 @@ function ToDoPart() {
                   <ButtonStyle onClick={ () => deleteTodo(dataId) }>삭제</ButtonStyle>
                 </OptionArea> 
             }
-          </TodoListBox>
+          </TodoListBox
+            >
       )
   });
 
   return (
     <MainContent>
+      {/* ---------- 타이틀 영역 ---------- */}
       <ContentTitleArea>오늘 할 일은 {toDoList.length}개에요</ContentTitleArea>
+
+      {/* ---------- 추가 영역 ---------- */}
       <ToDoInputArea>
         <InputArea 
           onChange={ handleAddToDo } 
@@ -267,6 +279,8 @@ function ToDoPart() {
         />
         <InputButton onClick={ addToDo }>저장</InputButton>
       </ToDoInputArea>
+
+      {/* ---------- 컨텐츠 영역 ---------- */}
       <ScrollArea>
         { toDoListCon }
       </ScrollArea>

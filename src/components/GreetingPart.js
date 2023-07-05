@@ -21,7 +21,7 @@ const MainContent = styled.div`
   border-right: 1px solid black;
 `;
 
-const InnerContentBox = styled.div`
+const VerticalDivide = styled.div`
   height: 33.3%;
   width: 100%;
 `;
@@ -68,7 +68,8 @@ const UserNameArea = styled.div`
   border-bottom: 1px solid black;
   box-sizing: border-box;
   font-size: 22px;
-  padding: 10px;
+  height: 100px;
+  padding: 20px 10px;
 `;
 
 
@@ -129,7 +130,7 @@ function GreetingPart() {
 
     return (
       <MainContent>
-        <InnerContentBox>
+        <VerticalDivide>
         {
           user !== '' ? 
             <UserNameArea>{ user }님 <br />안녕하세요</UserNameArea> : 
@@ -142,19 +143,19 @@ function GreetingPart() {
               <InputButton onClick={ addUserName }>저장</InputButton>
             </UserInputArea>
         }
-        </InnerContentBox>
-        {/* <InnerContentBox>
+        </VerticalDivide>
+        {/* <VerticalDivide>
           오늘은 { time.toLocaleDateString() }
           <br />
           현재시간은 { time.toLocaleTimeString() } 입니다.
-        </InnerContentBox> */}
-        <InnerContentBox>
+        </VerticalDivide> */}
+        <VerticalDivide>
           { 
             currWeather === null || currWeather === undefined ? 
             <div>현재 날씨를 가져오고 있어요!</div> : 
             <div>현재 기온은 { currWeather?.temp }℃로 { currWeather?.weather[0].description } 이에요</div>
           }
-        </InnerContentBox>
+        </VerticalDivide>
       </MainContent>
      
     );
