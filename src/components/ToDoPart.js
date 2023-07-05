@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled, { css } from "styled-components";
 import { SlOptionsVertical } from "react-icons/sl";
 
@@ -93,7 +93,7 @@ const TodoListBox = styled.div`
   align-items: center;
   box-sizing: border-box;
   display: flex;
-  margin-bottom: 10px;
+  padding: 8px 0px;
   position: relative;
 `;
 
@@ -108,11 +108,15 @@ const ContentStyle = styled.div`
   font-size: 18px;
   padding: 0px 10px;
   width: 90%;
-  text-decoration: ${({ isChecked }) => (isChecked ? 'line-through' : 'none')};
 
   &:hover {
     color: grey;
   };
+`;
+
+const CheckedStyle = styled(ContentStyle)`
+  color: grey;
+  text-decoration: line-through;
 `;
 
 const OptionButton = styled.div`
@@ -140,20 +144,33 @@ function ToDoPart() {
   const [editData, setEditData] = useState('');
   const [toDoList, setToDoList] = useState([]);
   const [currKey, setCurrKey] = useState(0);
+  const [checkedStates, setCheckedStates] = useState({});
   const [optionStates, setOptionStates] = useState({});
   const [editStates, setEditStates] = useState({});
    
+  // 추가 시 인풋
   const handleAddToDo = (e) => {
     e.preventDefault();
     setData(e.target.value);
   };
 
+  // 수정 시 인풋
   const handleEditToDo = (e) => {
     e.preventDefault();
     setEditData(e.target.value);
   };
 
-  // 추가
+  // 체크박스 상태 확인
+  const handleChecked = (id) => {
+    setCheckedStates((preState) => ({
+      ...preState,
+      [id]: !preState[id],
+    }));
+  };
+
+  console.log(checkedStates);
+
+  // 추가 버튼 클릭 이벤트
   const addToDo = (e) => {
     e.preventDefault();
 
@@ -167,25 +184,21 @@ function ToDoPart() {
     setData('');
   };
 
-  // 체크 박스
-  const handleChecked = (e) => {
-    setIsChecked(e.target.checked);
-  };
-
   // 수정&삭제 옵션 열기
   const toggleOption = (id) => {
-    setOptionStates((preOption) => ({
-      ...preOption,
-      [id]: !preOption[id],
+    setOptionStates((preState) => ({
+      ...preState,
+      [id]: !preState[id],
     }));
   };
 
   // 수정폼 열기
   const toggleEditForm = (id) => {
-    setEditStates((preState) => ({
-      ...preState,
-      [id]: !preState[id],
-    }));    
+    console.log('수정폼 열기 - ', id);
+    // setEditStates((preState) => ({
+    //   ...preState,
+    //   [id]: !preState[id],
+    // }));    
   };
 
   // 수정
@@ -196,7 +209,6 @@ function ToDoPart() {
     // setToDoList(preList);
   };
 
-
   // 삭제 
   const deleteTodo = (id) => {
     if(window.confirm('삭제하시겠어요??')){
@@ -205,9 +217,6 @@ function ToDoPart() {
     setOptionStates(!optionStates);
   };
 
-  console.log('toDoList 값 확인 : ', toDoList);
-  console.log('isChecked 값 확인 : ', isChecked);
-
   const toDoListCon = toDoList.map((thisResult) => {
     const dataId = thisResult.id;
 
@@ -215,20 +224,24 @@ function ToDoPart() {
         editStates[dataId] ?
           <HorizontalAlign>
             <InputArea 
-              checked={isChecked}
               onChange={ handleEditToDo } 
               placeholder="수정값" 
               value={ editData } 
             />
             <InputButton onClick={ editToDo(dataId) }>수정</InputButton>
           </HorizontalAlign> : 
+          
           <TodoListBox key={ dataId } >
             <CheckBoxStyle 
               key={ dataId }
-              onChange={ handleChecked }
+              onChange={ () => handleChecked(dataId) }
               type="checkbox"
             />
-            <ContentStyle isChecked={ isChecked }>{ thisResult.content }</ContentStyle>
+            {
+              checkedStates[dataId] ?
+                <CheckedStyle>{ thisResult.content }</CheckedStyle> :
+                <ContentStyle>{ thisResult.content }</ContentStyle>
+            }
             <OptionButton onClick={ () => toggleOption(dataId) }>
               <SlOptionsVertical size="12" />
             </OptionButton>

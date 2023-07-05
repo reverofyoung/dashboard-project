@@ -30,6 +30,7 @@ const ClockBox = styled.div`
     font-size: 18px;
     height: 50px;
     justify-content: flex-end;
+    padding: 10px;
     width: 100%;
 `;
 
