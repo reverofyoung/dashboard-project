@@ -88,7 +88,6 @@ const ScrollArea = styled.div`
 `;
 
 const TodoListBox = styled.div`
-  /* ${ HorizontalAlign } */
   align-items: center;
   box-sizing: border-box;
   display: flex;
@@ -139,24 +138,36 @@ const ButtonStyle = styled.div`
 `;
 
 function ToDoPart() {
-  const [data, setData] = useState('');
-  const [isChecked, setIsChecked] = useState(false);
+  const [newData, setNewData] = useState('');
   const [editData, setEditData] = useState('');
-  const [toDoList, setToDoList] = useState([]);
+  const [toDoList, setToDoList] = useState(() => {
+    if (typeof window !== "undefined") {
+      const getSavedData = window.localStorage.getItem("toDoData");
+      if (getSavedData !== null) {
+        return JSON.parse(getSavedData);
+      } else {
+        return [];
+      }
+    }
+  });
   const [currKey, setCurrKey] = useState(0);
   const [checkedStates, setCheckedStates] = useState({});
   const [optionStates, setOptionStates] = useState({});
   const [editStates, setEditStates] = useState({});
 
   useEffect(() => {
-    const test = JSON.parse((localStorage.getItem(currKey)));
+    const test = JSON.parse((localStorage.getItem("toDoData")));
     console.log(test);
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("toDoData", JSON.stringify(toDoList));
+  }, [toDoList]);
    
   // 추가 시 인풋 데이터 담기
   const handleAddToDo = (e) => {
     e.preventDefault();
-    setData(e.target.value);
+    setNewData(e.target.value);
   };
 
   // 수정 시 인풋 데이터 담기
@@ -169,16 +180,14 @@ function ToDoPart() {
   const addToDo = (e) => {
     e.preventDefault();
 
-    if(data !== '') {
-      setToDoList([ ...toDoList,{ id: currKey, content: data }]);  
-      localStorage.setItem('toDoData', JSON.stringify({ id: currKey, content: data }));
+    if(newData !== '') {
+      setToDoList([ ...toDoList,{ id: currKey, content: newData }]);  
     } else {
       alert('할 일을 입력해주세요 :^)');
     }
 
-
     setCurrKey(currKey + 1);
-    setData('');
+    setNewData('');
   };
 
   // 체크박스 상태 확인
@@ -222,7 +231,7 @@ function ToDoPart() {
     setOptionStates(!optionStates);
   };
 
-  const toDoListCon = toDoList.map((thisResult) => {
+  const toDoListCon = toDoList && toDoList.map((thisResult) => {
     const dataId = thisResult.id;
       return(
         editStates[dataId] ?
@@ -260,22 +269,21 @@ function ToDoPart() {
                   <ButtonStyle onClick={ () => deleteTodo(dataId) }>삭제</ButtonStyle>
                 </OptionArea> 
             }
-          </TodoListBox
-            >
+          </TodoListBox>
       )
   });
 
   return (
     <MainContent>
       {/* ---------- 타이틀 영역 ---------- */}
-      <ContentTitleArea>오늘 할 일은 {toDoList.length}개에요</ContentTitleArea>
+      {/* <ContentTitleArea>오늘 할 일은 {toDoList.length}개에요</ContentTitleArea> */}
 
       {/* ---------- 추가 영역 ---------- */}
       <ToDoInputArea>
         <InputArea 
           onChange={ handleAddToDo } 
           placeholder="할 일" 
-          value={ data } 
+          value={ newData } 
         />
         <InputButton onClick={ addToDo }>저장</InputButton>
       </ToDoInputArea>
