@@ -184,19 +184,19 @@ function ToDoPart() {
     setToDoList(preList);
   };
 
-  // 수정
+  // 수정 프롬프트창 띄우기
   const editToDo = (id) => {
     const findIndex = toDoList.findIndex(toDo => toDo.id === id);
     const preList = [...toDoList];
     const editData = String(window.prompt('수정할 내용을 작성해주세요', preList[findIndex].content));
-
+    
     // 확인 버튼을 눌렀을 때
     if(editData !== 'null') {
-      // prompt 입력창에 값이 있을 때
-      if(editData !== '' ){
+      // prompt 입력창이 빈값이 아닐 때
+      if(editData.trim().length !== 0 ){
         preList[findIndex].content = editData;
         setToDoList(preList);
-      } else { // prompt 입력창에 값이 없을 때
+      } else { // prompt 입력창이 빈값일 때
         alert('비어있어요!');
       }
     // 취소 버튼을 눌렀을 때
