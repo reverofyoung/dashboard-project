@@ -151,6 +151,7 @@ function ToDoPart() {
     }
   });
   const [currKey, setCurrKey] = useState(0);
+  const [checkedState, setCheckedState] = useState(false);
   const [checkedStates, setCheckedStates] = useState({});
   const [optionStates, setOptionStates] = useState({});
   const [editStates, setEditStates] = useState({});
@@ -163,7 +164,7 @@ function ToDoPart() {
   useEffect(() => {
     localStorage.setItem("toDoData", JSON.stringify(toDoList));
   }, [toDoList]);
-   
+
   // 추가 시 인풋 데이터 담기
   const handleAddToDo = (e) => {
     e.preventDefault();
@@ -179,9 +180,8 @@ function ToDoPart() {
   // 추가 버튼 클릭 이벤트
   const addToDo = (e) => {
     e.preventDefault();
-
     if(newData !== '') {
-      setToDoList([ ...toDoList,{ id: currKey, content: newData }]);  
+      setToDoList([ ...toDoList,{ id: currKey, content: newData, checked: checkedState }]);  
     } else {
       alert('할 일을 입력해주세요 :^)');
     }
@@ -192,10 +192,16 @@ function ToDoPart() {
 
   // 체크박스 상태 확인
   const handleChecked = (id) => {
-    setCheckedStates((preState) => ({
-      ...preState,
-      [id]: !preState[id],
-    }));
+    // setCheckedStates((preState) => ({
+    //   ...preState,
+    //   [id]: !preState[id],
+    // }));
+
+    let findIndex = toDoList.findIndex(thisData => thisData.id === id); 
+    console.log('findIndex', findIndex);
+    let preList = [...toDoList];
+    preList[findIndex].checked = !preList[findIndex].checked;
+    setToDoList(preList);
   };
 
   // 수정&삭제 옵션 열기
@@ -230,6 +236,7 @@ function ToDoPart() {
     };
     setOptionStates(!optionStates);
   };
+  console.log(toDoList);
 
   const toDoListCon = toDoList && toDoList.map((thisResult) => {
     const dataId = thisResult.id;
@@ -253,9 +260,10 @@ function ToDoPart() {
               key={ dataId }
               onChange={ () => handleChecked(dataId) }
               type="checkbox"
+              checked={ thisResult.checked }
             />
             {
-              checkedStates[dataId] ?
+              thisResult.checked ?
                 <CheckedStyle>{ thisResult.content }</CheckedStyle> :
                 <ContentStyle>{ thisResult.content }</ContentStyle>
             }

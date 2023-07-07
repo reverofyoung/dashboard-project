@@ -153,7 +153,7 @@ function GreetingPart() {
           { 
             currWeather === null || currWeather === undefined ? 
             <div>현재 날씨를 가져오고 있어요!</div> : 
-            <div>현재 기온은 { currWeather?.temp }℃로 { currWeather?.weather[0].description } 이에요</div>
+            <div>현재 기온은 { currWeather?.temp }℃로 { currWeather?.weather[0].description }이에요</div>
           }
         </VerticalDivide>
       </MainContent>
