@@ -26,6 +26,11 @@ const VerticalDivide = styled.div`
   width: 100%;
 `;
 
+const WeatherArea = styled.div`
+  box-sizing: border-box;
+  padding: 0px 10px;
+`;
+
 const UserInputArea = styled.div`
   ${HorizontalAlign}
   border-bottom: 1px solid black;
@@ -74,8 +79,8 @@ const UserNameArea = styled.div`
 
 
 function GreetingPart() {
-    // const [time, setTime] = useState(new Date());
     const [currWeather, setCurrWeather] = useState(null);
+    const [currTemp, setCurrTemp] = useState('');
     const [userName, setUserName] = useState('');
     const [user, setUser] = useState('');
   
@@ -102,16 +107,10 @@ function GreetingPart() {
       getCurrentLocation();
       getWeatherByCurrentLocation();
     }, []);
-  
-    // useEffect(() => {
-    //   const id = setInterval(() => {
-    //     setTime(new Date());
-    //   }, 1000);
-  
-    //   return (() => 
-    //     clearInterval(id) // 불필요한 작업 방지
-    //   ); 
-    // }, []);
+
+    useEffect(() => {
+      getWeatherId();
+    }, [currWeather])
   
     const getUserName = (e) => {
       setUserName(e.target.value);
@@ -126,6 +125,11 @@ function GreetingPart() {
         setUser(userName);
         setUserName('');
       }
+    };
+
+    const getWeatherId = () => {
+      const getTemp = currWeather?.temp;
+      setCurrTemp(getTemp?.toFixed(1));
     };
 
     return (
@@ -144,17 +148,30 @@ function GreetingPart() {
             </UserInputArea>
         }
         </VerticalDivide>
-        {/* <VerticalDivide>
-          오늘은 { time.toLocaleDateString() }
-          <br />
-          현재시간은 { time.toLocaleTimeString() } 입니다.
-        </VerticalDivide> */}
+
         <VerticalDivide>
-          { 
-            currWeather === null || currWeather === undefined ? 
-            <div>현재 날씨를 가져오고 있어요!</div> : 
-            <div>현재 기온은 { currWeather?.temp }℃로 { currWeather?.weather[0].description }이에요</div>
-          }
+          <WeatherArea>
+            {
+              currWeather === null || currWeather === undefined ? 
+              <div>현재 날씨를 가져오고 있어요!</div> : 
+              <div>
+                현재 기온은 { currTemp }℃로 <br />
+                {
+                  currWeather?.weather[0].main === 'Rain' ? '비가 내리니 우산 잊지마세요!' :
+                  currWeather?.weather[0].main === 'Snow' ? '눈이 오네요. 미끄러지지 않게 조심하세요' :
+                  currWeather?.weather[0].main === 'Clear' ? '맑은 하늘을 볼 수 있겠어요' :
+                  currWeather?.weather[0].main === 'Drizzle' ? '이슬비가 오고 있어요' :
+                  currWeather?.weather[0].main === 'Thunderstorm' ? '뇌우가 오고 있어요' :
+                  currWeather?.weather[0].main === 'Mist' || currWeather?.weather[0].main === 'Haze' || currWeather?.weather[0].main === 'Fog' || currWeather?.weather[0].main === 'Smoke' ? '안개 때문에 흐릴 수도 있겠어요' : 
+                  currWeather?.weather[0].main === 'Clouds' ? '구름이 껴서 흐린 날이에요.' : 
+                  currWeather?.weather[0].main === 'Sand' || currWeather?.weather[0].main === 'Dust' ? '미세먼지가 있어요 모래..' : 
+                  currWeather?.weather[0].main === 'Squall' ? '돌풍이 불어요. 외출을 자제해주세요 ' : 
+                  currWeather?.weather[0].main === 'Tornado' ? '회오리 바람이 불어요. 외출을 자제해주세요' : 
+                  currWeather?.weather[0].main === 'Ash' ? '화산재가 분출되었어요. 외출을 자제해주세요' : `${currWeather?.weather[0].description}`
+                }
+              </div>
+            }
+          </WeatherArea>
         </VerticalDivide>
       </MainContent>
      
