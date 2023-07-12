@@ -153,10 +153,10 @@ function ToDoPart() {
     setRemainToDoList(findChecked);
   }, [toDoList]);
 
-  useEffect(() => {
-    if(remainToDoList.length === 0 )
-      alert('할 일을 모두 끝냈어요!');
-  }, [remainToDoList]);
+  // useEffect(() => {
+  //   if(remainToDoList.length === 0 )
+  //     alert('할 일을 모두 끝냈어요!');
+  // }, [remainToDoList]);
 
   // 추가 시 인풋 데이터 담기
   const handleAddToDo = (e) => {
@@ -212,7 +212,7 @@ function ToDoPart() {
     };
   };
 
-  const toDoListCon = toDoList && toDoList.map((thisResult) => {
+  const toDoListCon = toDoList?.map((thisResult) => {
     const dataId = thisResult.id;
       return(
           <TodoListBox 

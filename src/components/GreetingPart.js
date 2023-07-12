@@ -164,8 +164,8 @@ function GreetingPart() {
                   currWeather?.weather[0].main === 'Thunderstorm' ? '뇌우가 오고 있어요' :
                   currWeather?.weather[0].main === 'Mist' || currWeather?.weather[0].main === 'Haze' || currWeather?.weather[0].main === 'Fog' || currWeather?.weather[0].main === 'Smoke' ? '안개 때문에 흐릴 수도 있겠어요' : 
                   currWeather?.weather[0].main === 'Clouds' ? '구름이 껴서 흐린 날이에요.' : 
-                  currWeather?.weather[0].main === 'Sand' || currWeather?.weather[0].main === 'Dust' ? '미세먼지가 있어요 모래..' : 
-                  currWeather?.weather[0].main === 'Squall' ? '돌풍이 불어요. 외출을 자제해주세요 ' : 
+                  currWeather?.weather[0].main === 'Sand' || currWeather?.weather[0].main === 'Dust' ? '미세먼지가 있네요. 마스크를 착용하는게 좋겠어요.' : 
+                  currWeather?.weather[0].main === 'Squall' ? '돌풍이 불어요. 외출을 자제해주세요' : 
                   currWeather?.weather[0].main === 'Tornado' ? '회오리 바람이 불어요. 외출을 자제해주세요' : 
                   currWeather?.weather[0].main === 'Ash' ? '화산재가 분출되었어요. 외출을 자제해주세요' : `${currWeather?.weather[0].description}`
                 }
