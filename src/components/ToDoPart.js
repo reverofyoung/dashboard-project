@@ -187,7 +187,7 @@ function ToDoPart() {
   // 수정 프롬프트창 띄우기
   const editToDo = (id) => {
     const findIndex = toDoList.findIndex(toDo => toDo.id === id);
-    const preList = [...toDoList];
+    const preList = [ ...toDoList ];
     const editData = String(window.prompt('수정할 내용을 작성해주세요', preList[findIndex].content));
     
     // 확인 버튼을 눌렀을 때
@@ -240,9 +240,9 @@ function ToDoPart() {
     <MainContent>
       {/* ---------- 타이틀 영역 ---------- */}
       {
-        remainToDoList.length !== 0 ?
-        <ContentTitleArea>화이팅! 남은 할 일은 { remainToDoList.length }개에요!</ContentTitleArea> :
-        <ContentTitleArea>할 일을 모두 끝냈어요</ContentTitleArea> 
+        remainToDoList.length !== 0 &&
+        <ContentTitleArea> 남은 할 일은 { remainToDoList.length }개에요!</ContentTitleArea> 
+        // : <ContentTitleArea visible={ visible }>할 일을 모두 끝냈어요</ContentTitleArea> 
       }  
 
       {/* ---------- 추가 영역 ---------- */}

@@ -20,6 +20,7 @@
 - 사용자 이름 등록
 - 현재 시간 및 날짜 확인
 - 현재 기온 및 날씨 확인
-- 투두 리스트 추가, 삭제
+- 투두 리스트 추가, 수정, 삭제 
+- 투두 리스트 로컬스토리지에 저장
 
 ### [View Now!](https://reverofyoung.github.io/dashboard-project/)

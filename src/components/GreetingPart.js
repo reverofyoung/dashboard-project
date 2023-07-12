@@ -28,6 +28,7 @@ const VerticalDivide = styled.div`
 
 const WeatherArea = styled.div`
   box-sizing: border-box;
+  line-height: 1.5;
   padding: 0px 10px;
 `;
 
@@ -153,20 +154,20 @@ function GreetingPart() {
           <WeatherArea>
             {
               currWeather === null || currWeather === undefined ? 
-              <div>현재 날씨를 가져오고 있어요!</div> : 
+              <div>날씨를 가져오고 있어요</div> : 
               <div>
-                현재 기온은 { currTemp }℃로 <br />
+                현재 기온은 { currTemp }℃에요. <br />
                 {
                   currWeather?.weather[0].main === 'Rain' ? '비가 내리니 우산 잊지마세요!' :
                   currWeather?.weather[0].main === 'Snow' ? '눈이 오네요. 미끄러지지 않게 조심하세요' :
-                  currWeather?.weather[0].main === 'Clear' ? '맑은 하늘을 볼 수 있겠어요' :
-                  currWeather?.weather[0].main === 'Drizzle' ? '이슬비가 오고 있어요' :
-                  currWeather?.weather[0].main === 'Thunderstorm' ? '뇌우가 오고 있어요' :
-                  currWeather?.weather[0].main === 'Mist' || currWeather?.weather[0].main === 'Haze' || currWeather?.weather[0].main === 'Fog' || currWeather?.weather[0].main === 'Smoke' ? '안개 때문에 흐릴 수도 있겠어요' : 
+                  currWeather?.weather[0].main === 'Clear' ? '맑은 하늘을 볼 수 있겠어요 :-)' :
+                  currWeather?.weather[0].main === 'Drizzle' ? '이슬비가 오고 있어요.' :
+                  currWeather?.weather[0].main === 'Thunderstorm' ? '뇌우가 오고 있어요.' :
+                  currWeather?.weather[0].main === 'Mist' || currWeather?.weather[0].main === 'Haze' || currWeather?.weather[0].main === 'Fog' || currWeather?.weather[0].main === 'Smoke' ? '안개 때문에 흐릴 수도 있겠어요.' : 
                   currWeather?.weather[0].main === 'Clouds' ? '구름이 껴서 흐린 날이에요.' : 
                   currWeather?.weather[0].main === 'Sand' || currWeather?.weather[0].main === 'Dust' ? '미세먼지가 있네요. 마스크를 착용하는게 좋겠어요.' : 
-                  currWeather?.weather[0].main === 'Squall' ? '돌풍이 불어요. 외출을 자제해주세요' : 
-                  currWeather?.weather[0].main === 'Tornado' ? '회오리 바람이 불어요. 외출을 자제해주세요' : 
+                  currWeather?.weather[0].main === 'Squall' ? '돌풍이 불어요. 외출을 자제해주세요.' : 
+                  currWeather?.weather[0].main === 'Tornado' ? '회오리 바람이 불어요. 외출을 자제해주세요.' : 
                   currWeather?.weather[0].main === 'Ash' ? '화산재가 분출되었어요. 외출을 자제해주세요' : `${currWeather?.weather[0].description}`
                 }
               </div>
