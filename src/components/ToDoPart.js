@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
-// import { SlOptionsVertical } from "react-icons/sl";
+import theme from "../common/colors";
 import { TfiClose } from "react-icons/tfi";
 
 const AlignCenter = css`
@@ -14,7 +14,7 @@ const MainContent = styled.div`
   height: 100%;
   /* padding: 30px; */
   width: 33.3%;
-  border-right: 1px solid black;
+  border-right: 1px solid ${theme.borderColor};
 `;
 
 const HorizontalAlign = css`
@@ -25,7 +25,7 @@ const HorizontalAlign = css`
 
 const ContentTitleArea = styled.div`
   ${ AlignCenter }
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid ${theme.borderColor};
   box-sizing: border-box;
   font-size: 18px;
   font-weight: 700;
@@ -34,12 +34,13 @@ const ContentTitleArea = styled.div`
 
 const ToDoInputArea = styled.div`
   ${ HorizontalAlign }
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid ${theme.borderColor};
   box-sizing: border-box;
   height: 50px;
 `;
 
 const InputArea = styled.input`
+  background-color: ${theme.mainBg};
   border-width: 0px;
   font-size: 18px;
   height: 100%;
@@ -54,7 +55,7 @@ const InputArea = styled.input`
 
 const InputButton = styled.div`
   ${ AlignCenter }
-  border-left: 1px solid black;
+  border-left: 1px solid ${theme.borderColor};
   /* border-radius: 10px; */
   font-size: 18px;
   height: 100%;
@@ -62,7 +63,7 @@ const InputButton = styled.div`
   width: 30%;
 
   &:hover {
-    background-color: black;
+    background-color: ${theme.borderColor};
     color: white;
   };
 `;
@@ -97,13 +98,15 @@ const TodoListBox = styled.div`
   position: relative;
 
   &:hover {
-    /* background-color: black; */
+    /* background-color: ${theme.borderColor}; */
     /* color: white; */
     font-weight: 900;
   };
 `;
 
 const CheckBoxStyle = styled.input`
+  color: ${theme.mainBg};
+  accent-color: ${theme.borderColor};
   height: 15px;
 `;
 

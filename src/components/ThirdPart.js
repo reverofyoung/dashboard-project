@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
+import theme from "../common/colors";
 
 const AlignCenter = css`
     align-items: center;
@@ -22,10 +23,10 @@ const MainContent = styled.div`
 
 const ClockBox = styled.div`
     align-items: center;
-    /* background-color: black; */
-    border-bottom: 1px solid black;
+    /* background-color: ${theme.borderColor}; */
+    border-bottom: 1px solid ${theme.borderColor};
     box-sizing: border-box;
-    /* color: white; */
+    /* color: ${theme.textColor}; */
     display: flex;
     font-size: 18px;
     height: 50px;

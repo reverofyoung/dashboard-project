@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
+import theme from "../common/colors";
 const { kakao } = window;
 
 const AlignCenter = css`
@@ -15,7 +16,7 @@ const HorizontalAlign = css`
 `;
 
 const MainContent = styled.div`
-  border-right: 1px solid black;
+  border-right: 1px solid ${theme.borderColor};
   box-sizing: border-box; 
   display: flex;
   flex-direction: column;
@@ -32,15 +33,14 @@ const VerticalDivide = styled.div`
 
 const UserInputArea = styled.div`
   ${HorizontalAlign}
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid ${theme.borderColor};
   box-sizing: border-box;
   height: 50px;
-
-  /* padding: 10px; */
 `;
 
 const InputArea = styled.input`
   ${ AlignCenter }
+  background-color: ${theme.mainBg};
   border-width: 0px;
   font-size: 18px;
   height: 100%;
@@ -55,7 +55,7 @@ const InputArea = styled.input`
 
 const InputButton = styled.div`
   ${ AlignCenter }
-  border-left: 1px solid black;
+  border-left: 1px solid ${theme.borderColor};
   /* border-radius: 10px; */
   font-size: 18px;
   height: 100%;
@@ -63,13 +63,13 @@ const InputButton = styled.div`
   width: 30%;
 
   &:hover {
-    background-color: black;
-    color: white;
+    background-color: ${theme.borderColor};
+    color: ${theme.white};
   };
 `;
 
 const UserNameArea = styled.div`
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid ${theme.borderColor};
   box-sizing: border-box;
   font-size: 22px;
   height: 100px;
@@ -78,7 +78,7 @@ const UserNameArea = styled.div`
 
 
 const WeatherArea = styled.div`
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid ${theme.borderColor};
   box-sizing: border-box;
   height: 100px;
   line-height: 1.5;
