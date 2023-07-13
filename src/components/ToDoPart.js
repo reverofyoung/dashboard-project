@@ -215,24 +215,24 @@ function ToDoPart() {
   const toDoListCon = toDoList?.map((thisResult) => {
     const dataId = thisResult.id;
       return(
-          <TodoListBox 
+        <TodoListBox 
+          key={ dataId }
+        >
+          <CheckBoxStyle 
             key={ dataId }
-          >
-            <CheckBoxStyle 
-              key={ dataId }
-              onChange={ () => handleChecked(dataId) }
-              type="checkbox"
-              checked={ thisResult.checked }
-            />
-            {
-              thisResult.checked ?
-                <CheckedStyle>{ thisResult.content }</CheckedStyle> :
-                <ContentStyle onClick={ () => editToDo(dataId) }>{ thisResult.content }</ContentStyle>
-            }
-            <DeleteButton onClick={ () => deleteToDo(dataId) }>
-              <TfiClose size="10" />
-            </DeleteButton>
-          </TodoListBox>
+            onChange={ () => handleChecked(dataId) }
+            type="checkbox"
+            checked={ thisResult.checked }
+          />
+          {
+            thisResult.checked ?
+              <CheckedStyle>{ thisResult.content }</CheckedStyle> :
+              <ContentStyle onClick={ () => editToDo(dataId) }>{ thisResult.content }</ContentStyle>
+          }
+          <DeleteButton onClick={ () => deleteToDo(dataId) }>
+            <TfiClose size="10" />
+          </DeleteButton>
+        </TodoListBox>
       )
   });
 
