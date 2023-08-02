@@ -1,9 +1,8 @@
 const theme = {
-    black: '#000',
-    white: '#fff',
-    mainBg: '#ECECEB',
-    borderColor: '#10316B',
-    textColor: '#10316B',
+    mainColor: '#6B6C6F',
+    sectionColor: '#88898C',
+    articleColor : '#AEAFB0',
+    textColor: '#fff',
 };
 
 export default theme;

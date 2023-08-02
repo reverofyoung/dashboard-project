@@ -15,105 +15,82 @@ const HorizontalAlign = css`
   justify-content: space-between;
 `;
 
-const MainContent = styled.div`
-  border-right: 1px solid ${theme.borderColor};
-  box-sizing: border-box; 
+const MainWrap = styled.main`
+  color: ${ theme.textColor };
+  height: 100%;
+  width: 65%;
+
+  @media (max-width: 768px) { width: 100%; }
+`;
+
+const LayoutSection = styled.article`
+  background-color: ${ theme.sectionColor };
+  border-radius: 50px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   height: 100%;
-  /* padding: 30px; */
-  position: relative;
-  width: 33.3%;
+  padding: 30px;
 `;
-
-const VerticalDivide = styled.div`
-  /* height: 33.3%; */
-  width: 100%;
-`;
-
-const UserInputArea = styled.div`
-  ${HorizontalAlign}
-  border-bottom: 1px solid ${theme.borderColor};
-  box-sizing: border-box;
-  height: 50px;
-`;
-
-const InputArea = styled.input`
-  ${ AlignCenter }
-  background-color: ${theme.mainBg};
-  border-width: 0px;
-  font-size: 18px;
-  height: 100%;
-  width: 70%;
-  padding: 0px 10px;
-  margin: 0px;
-
-  ::placeholder {
-    font-size: 18px;
-  }
-`;
-
-const InputButton = styled.div`
-  ${ AlignCenter }
-  border-left: 1px solid ${theme.borderColor};
-  /* border-radius: 10px; */
-  font-size: 18px;
-  height: 100%;
-  min-width: 60px;
-  width: 30%;
-
-  &:hover {
-    background-color: ${theme.borderColor};
-    color: ${theme.white};
-  };
-`;
-
-const UserNameArea = styled.div`
-  border-bottom: 1px solid ${theme.borderColor};
-  box-sizing: border-box;
-  font-size: 22px;
-  height: 100px;
-  padding: 20px 10px;
-`;
-
 
 const WeatherArea = styled.div`
-  border-bottom: 1px solid ${theme.borderColor};
+  ${ AlignCenter }
+  background-color: #3C486B;
+  border-radius: 30px;
   box-sizing: border-box;
-  height: 100px;
+  font-weight: 900;
   line-height: 1.5;
-  /* padding: 0px 10px; */
-  padding: 10px;
+  /* padding:20px 0px; */
+  /* margin-bottom: 30px; */
 `;
 
-const CafeListArea = styled.div`
+const BottomArea = styled.div`
   box-sizing: border-box;
-  height: 100px;
-  padding: 10px;
-  width: 100%;
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  position: relative;
+`;
+
+const CafeArea = styled.div`
+  background-color: ${ theme.articleColor };
+  border-radius: 30px;
+  box-sizing: border-box;
+  height: 100%;
+  padding: 30px;
+  width: 50%;
 `;
 
 const CafeListCon = styled.div`
-  box-sizing: border-box;
-  overflow-y: scroll;
-  /* padding:10px; */
+  h3 {
+    font-size: 18px;
+    font-weight: 900;
+    margin-bottom: 20px;
+  }
+
+  div {
+    box-sizing: border-box;
+    height: 100%;
+    overflow-y: scroll;
+    width: 100%;
+
+    p { margin-bottom: 10px; }
+  }
 `;
 
+
 const MapArea = styled.div`
-  /* height: 50%; */
-  bottom: 0px;
-  box-sizing: border-box;
-  padding: 10px;
+  border-radius: 30px;
   position: absolute;
-  height: 200px;
-  width: 100%;
+  height: 100%;
+  right: 0;
+  width: 40%;
 `;
 
 function GreetingPart() {
   const [currWeather, setCurrWeather] = useState(null);
   const [currTemp, setCurrTemp] = useState('');
-  const [userName, setUserName] = useState('');
-  const [user, setUser] = useState('');
   const [cafeList, setCafeList] = useState();
 
   // 현재 위치 가져오기
@@ -145,23 +122,6 @@ function GreetingPart() {
   useEffect(() => {
     getTemperature();
   }, [currWeather]);
-
-  // 유저 네임 인풋 데이터 담기
-  const getUserName = (e) => {
-    setUserName(e.target.value);
-  };
-
-  // 유저 네임 저장
-  const addUserName = (e) => {
-    e.preventDefault();
-
-    if(userName === '') {
-        alert('입력창이 비었네요!');
-    } else {
-      setUser(userName);
-      setUserName('');
-    }
-  };
 
   // 현재 기온 반올림
   const getTemperature = () => {
@@ -216,25 +176,9 @@ function GreetingPart() {
 
 
   return (
-    <MainContent>
-      {/* ---------- 유저 네임 영역 ---------- */}
-      <VerticalDivide>
-      {
-        user !== '' ? 
-          <UserNameArea>{ user }님 <br />안녕하세요</UserNameArea> : 
-          <UserInputArea>
-            <InputArea 
-              onChange={ getUserName } 
-              placeholder="이름을 입력해주세요" 
-              value={ userName } 
-            />
-            <InputButton onClick={ addUserName }>저장</InputButton>
-          </UserInputArea>
-      }
-      </VerticalDivide>
-
-      {/* ---------- 날씨 영역 ---------- */}
-      <VerticalDivide>
+    <MainWrap>
+      <LayoutSection>
+        {/* ---------- 날씨 ---------- */}
         <WeatherArea>
           {
             currWeather === null || currWeather === undefined ? 
@@ -257,24 +201,27 @@ function GreetingPart() {
             </div>
           }
         </WeatherArea>
-      </VerticalDivide>
 
-      {/* ---------- 지도?? 카페 목록?? 영역 ---------- */}
-      <VerticalDivide>
-        <CafeListArea>
-          {
-            cafeList === undefined ?
-            <div>근처 카페를 찾고 있어요</div> :
-            <CafeListCon>
-              { cafeList?.map((data) => (<div key={ data.place_name }>{data.place_name}</div>)) }
-            </CafeListCon>
-          }
-        </CafeListArea>
-      </VerticalDivide>
-      <VerticalDivide>
-        <MapArea id="map"></MapArea>
-      </VerticalDivide>
-    </MainContent>
+        {/* ---------- 카페 목록 ---------- */}
+        <BottomArea>
+            <CafeArea>
+              {
+                cafeList === undefined ?
+                <div>근처 카페를 찾고 있어요</div> :
+                <CafeListCon>
+                  <h3>오늘은 이곳에서 작업하는 거 어떨까요?</h3>
+                  <div>
+                    { cafeList?.map((data) => (<p key={ data.place_name }>{data.place_name}</p>)) }
+                  </div>
+                </CafeListCon>
+              }
+            </CafeArea>
+
+            {/* ---------- 지도 ---------- */}
+            <MapArea id="map"></MapArea>
+        </BottomArea>
+      </LayoutSection>
+    </MainWrap>
   );
 }
 

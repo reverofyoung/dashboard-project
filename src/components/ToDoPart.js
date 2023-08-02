@@ -9,75 +9,86 @@ const AlignCenter = css`
   justify-content: center;
 `;
 
-const MainContent = styled.div`
-  box-sizing: border-box; 
-  height: 100%;
-  /* padding: 30px; */
-  width: 33.3%;
-  border-right: 1px solid ${theme.borderColor};
-`;
-
 const HorizontalAlign = css`
   align-items: center;
   display: flex;
   justify-content: space-between;
 `;
 
+const MainWrap = styled.div`
+  color: ${ theme.textColor };
+  height: 100%;
+  width: 30%;
+
+  @media (max-width: 768px) { width: 100%; }
+`;
+
+const LayoutSection = styled.article`
+  background-color: ${ theme.sectionColor };
+  border-radius: 50px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 30px;
+`;
+
 const ContentTitleArea = styled.div`
   ${ AlignCenter }
-  border-bottom: 1px solid ${theme.borderColor};
+  /* background-color: ${ theme.articleColor }; */
+  background-color: #F9D949;
+  border-radius: 50px;
   box-sizing: border-box;
+  color: #000;
   font-size: 18px;
   font-weight: 700;
   height: 50px;
+  margin-bottom: 30px;
+  padding: 30px;
 `;
 
 const ToDoInputArea = styled.div`
   ${ HorizontalAlign }
-  border-bottom: 1px solid ${theme.borderColor};
   box-sizing: border-box;
   height: 50px;
 `;
 
 const InputArea = styled.input`
-  background-color: ${theme.mainBg};
-  border-width: 0px;
-  font-size: 18px;
-  height: 100%;
-  width: 70%;
-  padding: 0px 10px;
-  margin: 0px;
+  background-color: ${ theme.articleColor };
+  border: none;
+  border-radius: 50px;
+  box-sizing: border-box;
+  font-size: 15px;
+  height: 50px;
+  width: 60%;
+  padding: 0px 20px;
 
-  ::placeholder {
-    font-size: 18px;
-  }
+  ::placeholder { font-size: 15px; }
 `;
 
 const InputButton = styled.div`
   ${ AlignCenter }
-  border-left: 1px solid ${theme.borderColor};
-  /* border-radius: 10px; */
-  font-size: 18px;
+  background-color: ${ theme.articleColor };
+  border-radius: 50px;
+  font-size: 15px;
   height: 100%;
   min-width: 60px;
   width: 30%;
 
   &:hover {
-    background-color: ${theme.borderColor};
-    color: white;
+    background-color: ${ theme.textColor };
+    color: ${ theme.articleColor };
   };
 `;
 
 const ScrollArea = styled.div`
   box-sizing: border-box;
-  height: calc(100vh - 100px);
+  height: 100%;
   overflow-y: scroll;
   padding: 10px 0px;
   width: 100%;
 
-  ::-webkit-scrollbar {
-    width: 5px;
-  };
+  ::-webkit-scrollbar { width: 5px; };
   ::-webkit-scrollbar-thumb {
     /* background-clip: padding-box; */
     /* background-color: rgb(0,0,0,0.7); */
@@ -97,11 +108,7 @@ const TodoListBox = styled.div`
   padding: 10px 5px;
   position: relative;
 
-  &:hover {
-    /* background-color: ${theme.borderColor}; */
-    /* color: white; */
-    font-weight: 900;
-  };
+  &:hover { font-weight: 900; };
 `;
 
 const CheckBoxStyle = styled.input`
@@ -240,29 +247,31 @@ function ToDoPart() {
   });
 
   return (
-    <MainContent>
-      {/* ---------- 타이틀 영역 ---------- */}
-      {
-        remainToDoList.length !== 0 &&
-        <ContentTitleArea> 남은 할 일은 { remainToDoList.length }개에요!</ContentTitleArea> 
-        // : <ContentTitleArea visible={ visible }>할 일을 모두 끝냈어요</ContentTitleArea> 
-      }  
+    <MainWrap>
+      <LayoutSection>
+        {/* ---------- 타이틀 영역 ---------- */}
+        {
+          remainToDoList.length !== 0 &&
+          <ContentTitleArea> 남은 할 일은 { remainToDoList.length }개에요!</ContentTitleArea> 
+          // : <ContentTitleArea visible={ visible }>할 일을 모두 끝냈어요</ContentTitleArea> 
+        }  
 
-      {/* ---------- 추가 영역 ---------- */}
-      <ToDoInputArea>
-        <InputArea 
-          onChange={ handleAddToDo } 
-          placeholder="할 일" 
-          value={ newData } 
-        />
-        <InputButton onClick={ addToDo }>저장</InputButton>
-      </ToDoInputArea>
+        {/* ---------- 추가 영역 ---------- */}
+        <ToDoInputArea>
+          <InputArea 
+            onChange={ handleAddToDo } 
+            placeholder="할 일" 
+            value={ newData } 
+          />
+          <InputButton onClick={ addToDo }>저장</InputButton>
+        </ToDoInputArea>
 
-      {/* ---------- 컨텐츠 영역 ---------- */}
-      <ScrollArea>
-        { toDoListCon }
-      </ScrollArea>
-    </MainContent> 
+        {/* ---------- 컨텐츠 영역 ---------- */}
+        <ScrollArea>
+          { toDoListCon }
+        </ScrollArea>
+      </LayoutSection>
+    </MainWrap> 
   );
 };
 

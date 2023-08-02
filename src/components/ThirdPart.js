@@ -14,46 +14,32 @@ const HorizontalAlign = css`
     justify-content: space-between;
 `;
 
-const MainContent = styled.div`
-    box-sizing: border-box; 
+const MainWrap = styled.main`
     height: 100%;
-    /* padding: 40px; */
-    width: 33.3%;
+    width: 30%;
+    
+    @media (max-width: 768px) { width: 100%; };
 `;
 
-const ClockBox = styled.div`
-    align-items: center;
-    /* background-color: ${theme.borderColor}; */
-    border-bottom: 1px solid ${theme.borderColor};
-    box-sizing: border-box;
-    /* color: ${theme.textColor}; */
-    display: flex;
-    font-size: 18px;
-    height: 50px;
-    justify-content: flex-end;
-    padding: 10px;
-    width: 100%;
+const LayoutSection = styled.article`
+  background-color: ${ theme.sectionColor };
+  border-radius: 50px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 30px;
 `;
+
 
 function ThirdPart() {
-    const [time, setTime] = useState(new Date());
-
-    useEffect(() => {
-        const id = setInterval(() => {
-            setTime(new Date());
-        }, 1000);
-
-        return (() => 
-            clearInterval(id) // 불필요한 작업 방지
-        ); 
-    }, []);
 
     return (
-        <MainContent>
-            <ClockBox>
-                { time.toLocaleDateString() } { time.toLocaleTimeString()}
-            </ClockBox>
-        </MainContent> 
+        <MainWrap>
+            <LayoutSection>
+                
+            </LayoutSection>
+        </MainWrap> 
     );
 };
 
