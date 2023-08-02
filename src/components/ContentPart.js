@@ -88,7 +88,7 @@ const MapArea = styled.div`
   width: 40%;
 `;
 
-function GreetingPart() {
+function ContentPart() {
   const [currWeather, setCurrWeather] = useState(null);
   const [currTemp, setCurrTemp] = useState('');
   const [cafeList, setCafeList] = useState();
@@ -225,4 +225,4 @@ function GreetingPart() {
   );
 }
 
-export default GreetingPart;
+export default ContentPart;

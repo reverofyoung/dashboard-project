@@ -1,9 +1,8 @@
 import styled, { css } from "styled-components";
 import theme from "../common/colors";
-import GreetingPart from "../components/GreetingPart";
-import ToDoPart from "../components/ToDoPart";
-import ThirdPart from "../components/ThirdPart";
 import HeaderPart from "../components/HeaderPart";
+import ContentPart from "../components/GreetingPart";
+import ToDoPart from "../components/ToDoPart";
 
 const Wrap = styled.div`
   background-color: ${ theme.mainColor };
@@ -37,9 +36,8 @@ function Dashboard() {
       </HeaderSection>
 
       <ContentSection>
-        <GreetingPart />
+        <ContentPart />
         <ToDoPart />
-        {/* <ThirdPart /> */}
       </ContentSection>
     </Wrap>
   );
