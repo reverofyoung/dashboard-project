@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 import theme from "../common/colors";
 import HeaderPart from "../components/HeaderPart";
-import ContentPart from "../components/GreetingPart";
+import ContentPart from "../components/ContentPart";
 import ToDoPart from "../components/ToDoPart";
 
 const Wrap = styled.div`
