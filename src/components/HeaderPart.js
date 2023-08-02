@@ -35,7 +35,9 @@ const GreetingArticle = styled.article`
 `;
 
 const UserArticle = styled.article`
-    width: 40%;
+    width: fit-content;
+
+    @media (max-width: 768px) { width: 100%; }
 `;
 
 const UserInputArea = styled.div`
@@ -49,7 +51,7 @@ const InputArea = styled.input`
     border: none;
     border-radius: 50px;
     box-sizing: border-box;
-    color: ${ theme.textColor };
+    color: #CECECE;
     font-size: 15px;
     height: 100%;
     min-width: 120px;
@@ -63,6 +65,7 @@ const InputButton = styled.div`
     ${ AlignCenter }
     background-color: ${ theme.articleColor };
     border-radius: 50px;
+    cursor: pointer;
     font-size: 15px;
     height: 100%;
     min-width: 80px;
@@ -76,27 +79,32 @@ const InputButton = styled.div`
 
 const UserNameArea = styled.div`
     align-items: center;
+    background-color:#CD1818;
+    box-sizing: border-box;
+    border-radius: 50px;
     display: flex;
-    font-size: 22px;
+    font-size: 1.3em;
     font-weight: 900;
     height: 100%;
+    padding: 20px;
 `;
 
 const ClockArticle = styled.article`
     ${ AlignCenter }
-    /* background-color: ${ theme.articleColor }; */
-    background-color: #F0F0F0;
+    background-color: ${ theme.articleColor };
     border-radius: 50px;
     box-sizing: border-box;
-    color: ${ theme.sectionColor };
-    font-weight: 600;
     height: 100%;
     padding: 10px;
     width: 20%;
+
+    @media (max-width: 768px) { display: none; }
 `;
 
 const ClockBox = styled.div`
-    font-size: 18px;
+    color: ${ theme.textColor };
+    font-size: 1em;
+    font-weight: 900;
     width: fit-content;
 `;
 

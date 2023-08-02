@@ -35,15 +35,14 @@ const LayoutSection = styled.article`
 
 const ContentTitleArea = styled.div`
   ${ AlignCenter }
-  /* background-color: ${ theme.articleColor }; */
-  background-color: #F9D949;
+  background-color: #00ABB3;
   border-radius: 50px;
   box-sizing: border-box;
-  color: #000;
-  font-size: 18px;
+  color: #fff;
+  font-size: 1.2em;
   font-weight: 700;
   height: 50px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   padding: 30px;
 `;
 
@@ -51,6 +50,7 @@ const ToDoInputArea = styled.div`
   ${ HorizontalAlign }
   box-sizing: border-box;
   height: 50px;
+  margin-bottom: 20px;
 `;
 
 const InputArea = styled.input`
@@ -63,13 +63,14 @@ const InputArea = styled.input`
   width: 60%;
   padding: 0px 20px;
 
-  ::placeholder { font-size: 15px; }
+  ::placeholder { color: #CECECE; font-size: 15px; }
 `;
 
 const InputButton = styled.div`
   ${ AlignCenter }
   background-color: ${ theme.articleColor };
   border-radius: 50px;
+  cursor: pointer;
   font-size: 15px;
   height: 100%;
   min-width: 60px;
@@ -81,29 +82,25 @@ const InputButton = styled.div`
   };
 `;
 
-const ScrollArea = styled.div`
+
+const ToDoArea = styled.div`
+  background-color: ${ theme.articleColor };
   box-sizing: border-box;
+  border-radius: 50px;
   height: 100%;
   overflow-y: scroll;
-  padding: 10px 0px;
+  padding: 30px 10px;
   width: 100%;
 
-  ::-webkit-scrollbar { width: 5px; };
-  ::-webkit-scrollbar-thumb {
-    /* background-clip: padding-box; */
-    /* background-color: rgb(0,0,0,0.7); */
-    /* border: 1px solid transparent; */
-    /* border-radius: 3px; */
-  };
-  ::-webkit-scrollbar-track {
-    /* background-color: rgb(0,0,0,0.1); */
-    /* border-radius: 3px; */
-  };
+  ::-webkit-scrollbar { width: 0px; };
+
+  
 `;
 
 const TodoListBox = styled.div`
   align-items: center;
   box-sizing: border-box;
+  cursor: pointer;
   display: flex;
   padding: 10px 5px;
   position: relative;
@@ -121,13 +118,13 @@ const ContentStyle = styled.div`
   align-items: center;
   box-sizing: border-box;
   display: flex;
-  font-size: 18px;
+  font-size: 1em;
   padding: 0px 5px;
   width: 90%;
 `;
 
 const CheckedStyle = styled(ContentStyle)`
-  color: grey;
+  color: #CECECE;
   cursor: pointer;
   text-decoration: line-through;
 `;
@@ -137,11 +134,12 @@ const DeleteButton = styled.div`
   box-sizing: border-box;
   cursor: pointer;
   padding: 0px 3px;
+
+  &:hover { color: red; }
 `;
 
 function ToDoPart() {
   const [newData, setNewData] = useState('');
-  const [editData, setEditData] = useState('');
   const [toDoList, setToDoList] = useState(() => {
     if (typeof window !== "undefined") {
       const getSavedData = window.localStorage.getItem("toDoData");
@@ -240,7 +238,7 @@ function ToDoPart() {
               <ContentStyle onClick={ () => editToDo(dataId) }>{ thisResult.content }</ContentStyle>
           }
           <DeleteButton onClick={ () => deleteToDo(dataId) }>
-            <TfiClose size="10" />
+            <TfiClose size="13" />
           </DeleteButton>
         </TodoListBox>
       )
@@ -267,9 +265,9 @@ function ToDoPart() {
         </ToDoInputArea>
 
         {/* ---------- 컨텐츠 영역 ---------- */}
-        <ScrollArea>
-          { toDoListCon }
-        </ScrollArea>
+        <ToDoArea>
+            { toDoListCon }
+        </ToDoArea>
       </LayoutSection>
     </MainWrap> 
   );

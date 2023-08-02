@@ -11,6 +11,8 @@ const Wrap = styled.div`
   height: 100vh;
   padding: 30px;
   width: 100vw;
+
+  @media (max-width: 768px) { height: 100%; width: 100%; }
 `;
 
 const HeaderSection = styled.section`

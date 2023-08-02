@@ -1,7 +1,7 @@
 const theme = {
-    mainColor: '#6B6C6F',
-    sectionColor: '#88898C',
-    articleColor : '#AEAFB0',
+    mainColor: '#3C4048',
+    sectionColor: '#EAEAEA',
+    articleColor : '#B2B2B2',
     textColor: '#fff',
 };
 

@@ -20,7 +20,7 @@ const MainWrap = styled.main`
   height: 100%;
   width: 65%;
 
-  @media (max-width: 768px) { width: 100%; }
+  @media (max-width: 768px) { width: 100%; margin-bottom: 30px; }
 `;
 
 const LayoutSection = styled.article`
@@ -34,23 +34,26 @@ const LayoutSection = styled.article`
   padding: 30px;
 `;
 
-const WeatherArea = styled.div`
+const TopArea = styled.div`
   ${ AlignCenter }
-  background-color: #3C486B;
+  background-color: #F2BE22;
   border-radius: 30px;
   box-sizing: border-box;
+  font-size: 1.2em;
   font-weight: 900;
+  height: 100px;
   line-height: 1.5;
-  /* padding:20px 0px; */
-  /* margin-bottom: 30px; */
+  margin-bottom: 30px;
 `;
 
 const BottomArea = styled.div`
   box-sizing: border-box;
   display: flex;
-  flex: 1;
+  flex: 0.8;
   justify-content: space-between;
   position: relative;
+
+  @media (max-width: 768px) { flex-direction: column; }
 `;
 
 const CafeArea = styled.div`
@@ -60,32 +63,59 @@ const CafeArea = styled.div`
   height: 100%;
   padding: 30px;
   width: 50%;
+  
+  @media (max-width: 768px) { width: 100%; }
+
 `;
 
 const CafeListCon = styled.div`
   h3 {
-    font-size: 18px;
+    color: #fff;
+    font-size: 1em;
     font-weight: 900;
-    margin-bottom: 20px;
-  }
-
-  div {
-    box-sizing: border-box;
-    height: 100%;
-    overflow-y: scroll;
-    width: 100%;
-
-    p { margin-bottom: 10px; }
+    margin-bottom: 40px;
+    text-align: center;
   }
 `;
 
+const ScrollBox = styled.div`
+  box-sizing: border-box;
+  height: 300px;
+  overflow-y: scroll;
+  width: 100%;
+
+  p { font-size: 1em; margin-bottom: 10px; }
+
+  ::-webkit-scrollbar { width: 5px; };
+  ::-webkit-scrollbar-thumb {
+    background-clip: padding-box;
+    background-color: rgb(255,255,255,0.8);
+    border: 1px solid transparent;
+    border-radius: 3px;
+  };
+  ::-webkit-scrollbar-track {
+    background-color: rgb(255,255,255,0.2);
+    border-radius: 3px;
+  };
+`;
+
+const ScrollContent = styled.div`
+  height: 100%; 
+  width: 100%;
+`;
 
 const MapArea = styled.div`
+  position: relative;
+  width: 40%;
+`;
+const MapContent = styled.div`
   border-radius: 30px;
   position: absolute;
   height: 100%;
   right: 0;
-  width: 40%;
+  width: 100%;
+
+  @media (max-width: 768px) { bottom: 0; right: initial;}
 `;
 
 function ContentPart() {
@@ -179,7 +209,7 @@ function ContentPart() {
     <MainWrap>
       <LayoutSection>
         {/* ---------- 날씨 ---------- */}
-        <WeatherArea>
+        <TopArea>
           {
             currWeather === null || currWeather === undefined ? 
             <div>날씨를 가져오고 있어요</div> : 
@@ -200,7 +230,7 @@ function ContentPart() {
               }
             </div>
           }
-        </WeatherArea>
+        </TopArea>
 
         {/* ---------- 카페 목록 ---------- */}
         <BottomArea>
@@ -210,15 +240,20 @@ function ContentPart() {
                 <div>근처 카페를 찾고 있어요</div> :
                 <CafeListCon>
                   <h3>오늘은 이곳에서 작업하는 거 어떨까요?</h3>
-                  <div>
-                    { cafeList?.map((data) => (<p key={ data.place_name }>{data.place_name}</p>)) }
-                  </div>
+                  
+                  <ScrollBox>
+                    <ScrollContent>
+                      { cafeList?.map((data) => (<p key={ data.place_name }>{data.place_name}</p>)) }
+                    </ScrollContent>
+                  </ScrollBox>
                 </CafeListCon>
               }
             </CafeArea>
 
             {/* ---------- 지도 ---------- */}
-            <MapArea id="map"></MapArea>
+            <MapArea>
+              <MapContent id="map"></MapContent>
+            </MapArea>
         </BottomArea>
       </LayoutSection>
     </MainWrap>
